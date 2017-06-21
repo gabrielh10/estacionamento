@@ -39,4 +39,13 @@ class Vaga {
         this.reservas.last().setSaida(new Date())
     }
 
+    def desocuparAposTempo(int tempo){
+        def tempoAtual = new Date()
+        if (this.reservas != null && this.getOcupada()) {
+            def tempoDecorrido = tempoAtual.time - (this.reservas.last().entrada.time + (tempo * 1000))
+            if (tempoDecorrido >= 0) {
+                this.desocupar()
+            }
+        }
+    }
 }

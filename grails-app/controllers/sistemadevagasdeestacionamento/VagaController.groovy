@@ -11,7 +11,7 @@ class VagaController {
 
     static allowedMethods = [update: "PUT"]
 
-    def desocuparTodasAposTempo(int tempo) {       //falta alguns ajustes
+    def desocuparTodasAposTempo(int tempo) {
         def usuario = AuthHelper.instance.currentUsername
         if (usuario == "master") {
             Vaga.all.each {
@@ -25,14 +25,8 @@ class VagaController {
 
 
     def desocuparAposTempo (Vaga vaga, int tempo){
-        def tempoAtual = new Date()
-         if (vaga.reservas != null && vaga.getOcupada()) {
-             def tempoDecorrido = tempoAtual.time - (vaga.reservas.last().entrada.time + (tempo * 1000))
-             if (tempoDecorrido >= 0) {
-                 vaga.desocupar()
-                 vaga.save(flush:true)
-             }
-         }
+        vaga.desocuparAposTempo(tempo)
+        vaga.save(flush:true)
     }
 
 
